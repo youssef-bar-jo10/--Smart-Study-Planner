@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="StudyFlow - تطبيق ذكي لتنظيم المذاكرة">
+
+  <title>StudyFlow | تنظيم المذاكرة</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* يمنع وميض الصفحة قبل تحميل CSS */
+    html { background:#0f1220; }
+  </style>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       APP
+  ========================== -->
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="brand">
+        <div class="brand-icon">
+          <span>📚</span>
+        </div>
+
+        <div>
+          <h2>StudyFlow</h2>
+          <small>خطتك لمذاكرة أذكى</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <button class="nav-item active" data-page="dashboard">
+          <span>📊</span>
+          <span>لوحة التحكم</span>
+        </button>
+
+        <button class="nav-item" data-page="subjects">
+          <span>📚</span>
+          <span>المواد</span>
+        </button>
+
+        <button class="nav-item" data-page="exams">
+          <span>📝</span>
+          <span>الاختبارات</span>
+        </button>
+
+        <button class="nav-item" data-page="schedule">
+          <span>📅</span>
+          <span>جدول المذاكرة</span>
+        </button>
+
+        <button class="nav-item" data-page="timer">
+          <span>⏱️</span>
+          <span>المؤقت</span>
+        </button>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <button class="nav-item" id="themeBtn">
+          <span>🌙</span>
+          <span>الوضع الليلي</span>
+        </button>
+
+        <button class="nav-item danger-text" id="resetDataBtn">
+          <span>🗑️</span>
+          <span>مسح جميع البيانات</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+      <!-- Header -->
+      <header class="topbar">
+
+        <button class="mobile-menu" id="mobileMenu">
+          ☰
+        </button>
+
+        <div>
+          <h1 id="pageTitle">لوحة التحكم</h1>
+          <p id="todayText">أهلاً بك 👋</p>
+        </div>
+
+        <div class="top-actions">
+
+          <button class="icon-btn" id="quickAddBtn" title="إضافة">
+            ＋
+          </button>
+
+          <div class="profile">
+            <div class="avatar">ي</div>
+            <div>
+              <strong>طالب</strong>
+              <small>مستمر في التقدم 🚀</small>
+            </div>
+          </div>
+
+        </div>
+
+      </header>
+
+      <!-- =========================
+           DASHBOARD
+      ========================== -->
+
+      <section class="page active" id="dashboardPage">
+
+        <div class="hero-card">
+
+          <div class="hero-content">
+            <span class="hero-label">🎯 خطتك اليوم</span>
+
+            <h2>
+              كل ساعة مذاكرة
+              <br>
+              تقربك من هدفك.
+            </h2>
+
+            <p>
+              نظم وقتك، تابع تقدمك، واستعد لاختباراتك بدون ضغط.
+            </p>
+
+            <button class="primary-btn" data-page-link="schedule">
+              عرض جدول اليوم →
+            </button>
+          </div>
+
+          <div class="hero-illustration">
+            <div class="study-orbit">
+              📚
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Stats -->
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-icon purple">📚</div>
+            <div>
+              <span>المواد</span>
+              <strong id="statSubjects">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon orange">📝</div>
+            <div>
+              <span>الاختبارات</span>
+              <strong id="statExams">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">⏱️</div>
+            <div>
+              <span>ساعات المذاكرة</span>
+              <strong id="statHours">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon blue">🔥</div>
+            <div>
+              <span>أيام متتالية</span>
+              <strong id="statStreak">0</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+          <!-- Upcoming Exams -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div>
+                <h3>الاختبارات القادمة</h3>
+                <p>تابع مواعيد اختباراتك</p>
+              </div>
+
+              <button class="text-btn" data-page-link="exams">
+                عرض الكل
+              </button>
+            </div>
+
+            <div id="upcomingExams" class="exam-list">
+              <!-- JS -->
+            </div>
+
+          </div>
+
+          <!-- Today's Sessions -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div>
+                <h3>جلسات اليوم</h3>
+                <p>خطة مذاكرتك اليومية</p>
+              </div>
+
+              <button class="text-btn" data-page-link="schedule">
+                الجدول
+              </button>
+            </div>
+
+            <div id="todaySessions" class="session-list">
+              <!-- JS -->
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Progress -->
+
+        <div class="panel progress-panel">
+
+          <div class="panel-header">
+            <div>
+              <h3>تقدم المواد</h3>
+              <p>تابع نسبة إنجازك في كل مادة</p>
+            </div>
+          </div>
+
+          <div id="subjectsProgress" class="progress-list">
+            <!-- JS -->
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           SUBJECTS
+      ========================== -->
+
+      <section class="page" id="subjectsPage">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>المواد الدراسية</h2>
+            <p>أضف موادك وحدد مستوى تقدمك.</p>
+          </div>
+
+          <button class="primary-btn" id="addSubjectBtn">
+            ＋ إضافة مادة
+          </button>
+
+        </div>
+
+        <div id="subjectsGrid" class="subjects-grid">
+          <!-- JS -->
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           EXAMS
+      ========================== -->
+
+      <section class="page" id="examsPage">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>الاختبارات</h2>
+            <p>حدد مواعيد الاختبارات وسيقوم التطبيق بتنظيم وقتك.</p>
+          </div>
+
+          <button class="primary-btn" id="addExamBtn">
+            ＋ إضافة اختبار
+          </button>
+
+        </div>
+
+        <div id="examsGrid" class="exams-grid">
+          <!-- JS -->
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           SCHEDULE
+      ========================== -->
+
+      <section class="page" id="schedulePage">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>جدول المذاكرة</h2>
+            <p>جدول ذكي مبني على الاختبارات والمواد.</p>
+          </div>
+
+          <button class="primary-btn" id="generateScheduleBtn">
+            🤖 إنشاء جدول تلقائي
+          </button>
+
+        </div>
+
+        <div class="schedule-info">
+
+          <div>
+            <span>جلسات اليوم</span>
+            <strong id="scheduleCount">0</strong>
+          </div>
+
+          <div>
+            <span>الساعات المخططة</span>
+            <strong id="plannedHours">0</strong>
+          </div>
+
+          <div>
+            <span>الجلسات المكتملة</span>
+            <strong id="completedSessions">0</strong>
+          </div>
+
+        </div>
+
+        <div id="scheduleList" class="schedule-list">
+          <!-- JS -->
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           TIMER
+      ========================== -->
+
+      <section class="page" id="timerPage">
+
+        <div class="timer-page">
+
+          <div class="timer-card">
+
+            <span class="timer-label" id="timerMode">
+              وقت المذاكرة
+            </span>
+
+            <div class="timer-circle">
+
+              <svg viewBox="0 0 220 220">
+
+                <circle
+                  class="timer-track"
+                  cx="110"
+                  cy="110"
+                  r="95">
+                </circle>
+
+                <circle
+                  class="timer-progress"
+                  id="timerProgress"
+                  cx="110"
+                  cy="110"
+                  r="95">
+                </circle>
+
+              </svg>
+
+              <div class="timer-value" id="timerDisplay">
+                25:00
+              </div>
+
+            </div>
+
+            <div class="timer-controls">
+
+              <button class="timer-main-btn" id="timerStart">
+                ▶
+              </button>
+
+              <button class="timer-control" id="timerReset">
+                ↻
+              </button>
+
+              <button class="timer-control" id="timerSkip">
+                ⏭
+              </button>
+
+            </div>
+
+            <div class="timer-settings">
+
+              <button class="timer-mode active" data-minutes="25" data-mode="study">
+                25 دقيقة
+              </button>
+
+              <button class="timer-mode" data-minutes="5" data-mode="break">
+                5 دقائق
+              </button>
+
+              <button class="timer-mode" data-minutes="15" data-mode="break">
+                15 دقيقة
+              </button>
+
+            </div>
+
+          </div>
+
+          <div class="timer-info">
+
+            <div class="panel">
+
+              <h3>📈 إحصائيات اليوم</h3>
+
+              <div class="timer-stat">
+                <span>وقت المذاكرة</span>
+                <strong id="todayStudyTime">0 دقيقة</strong>
+              </div>
+
+              <div class="timer-stat">
+                <span>الجلسات المكتملة</span>
+                <strong id="todayCompleted">0</strong>
+              </div>
+
+              <div class="timer-stat">
+                <span>الهدف اليومي</span>
+                <strong>2 ساعة</strong>
+              </div>
+
+              <div class="goal-progress">
+                <span id="dailyGoalBar"></span>
+              </div>
+
+            </div>
+
+            <div class="panel timer-tip">
+
+              <span>💡</span>
+
+              <div>
+                <h3>نصيحة اليوم</h3>
+                <p>
+                  ضع هاتفك بعيداً أثناء جلسة المذاكرة
+                  وحاول التركيز على مهمة واحدة فقط.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- =========================
+       MODAL
+  ========================== -->
+
+  <div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal">
+
+      <button class="modal-close" id="modalClose">×</button>
+
+      <div id="modalContent">
+        <!-- JS -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Toast -->
+
+  <div class="toast" id="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastMessage">تم الحفظ</span>
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
